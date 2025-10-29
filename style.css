@@ -1,0 +1,2523 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #E74C3C; /* Merah cerah */
+    --secondary-color: #e57373; /* Merah muda */
+    --text-color: #333;
+    --bg-color: #f0f4f8;
+
+    /* Warna Gradasi Baru (Merah) */
+    --gradient-red-light: linear-gradient(135deg, #e57373, #d32f2f);
+    --gradient-red-dark: linear-gradient(135deg, #d32f2f, #c62828);
+    --gradient-body-light: linear-gradient(45deg, #ff8a80, #ff5252, #e57373, #ff8a80);
+    --gradient-dark-footer: linear-gradient(135deg, #2c3e50, #1a232f);
+    --gradient-cta-hover: linear-gradient(135deg, #c62828, #e57373);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    /* Mengganti background solid dengan gradien animasi */
+    background: var(--gradient-body-light);
+    background-size: 400% 400%;
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+@keyframes float-icons {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    50% { opacity: 1; }
+    100% {
+        transform: translateY(-120vh) rotate(360deg); /* Bergerak ke atas sambil berputar */
+        opacity: 0;
+    }
+}
+
+@keyframes liquid-move {
+    from { background-position-x: 0; }
+    to { background-position-x: -200%; }
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-color); /* Latar belakang sederhana */
+    z-index: 9999;
+    display: flex;
+    flex-direction: column; /* Susun vertikal */
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease-out;
+}
+
+.preloader-image {
+    width: 150px; /* Ukuran logo diperbesar */
+    height: 150px; /* Ukuran logo diperbesar */
+    border-radius: 50%; /* Membuat gambar menjadi lingkaran */
+    object-fit: cover; /* Memastikan gambar mengisi lingkaran dengan baik */
+    border: 3px solid rgba(255, 255, 255, 0.5); /* Menambahkan bingkai tipis */
+    animation: logo-fade-in 1s ease-out forwards;
+}
+
+@keyframes logo-fade-in {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+#preloader.preloader-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- Efek Kilatan Putih Saat Transisi --- */
+#flash-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    opacity: 0;
+    z-index: 99998; /* Di atas segalanya, tepat sebelum menghilang */
+    pointer-events: none;
+}
+
+/* Memicu animasi flash via JS */
+#flash-overlay.flash-active {
+    animation: white-flash 0.5s ease-out;
+}
+
+@keyframes white-flash {
+    50% { opacity: 0.8; }
+}
+
+/* --- Latar Belakang Logo Preloader --- */
+.logo-background-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.preloader-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 20; /* Pastikan di atas elemen lain */
+}
+
+.preloader-svg {
+    width: 90%;
+    max-width: 700px;
+}
+
+.preloader-text {
+    font-size: 6rem; /* Ukuran font diperbesar */
+    font-weight: 700;
+    stroke: white;
+    stroke-width: 1.5; /* Ketebalan garis disesuaikan */
+    fill: transparent;
+    stroke-dasharray: 1500; /* Perkiraan panjang path, sesuaikan jika perlu */
+    stroke-dashoffset: 1500;
+    /* Animasi: gambar garis, lalu isi warna */
+    animation: draw-line 1.5s ease-out 2.8s forwards, fill-in 1s ease-out 4.3s forwards;
+}
+
+@keyframes draw-line {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fill-in {
+    from {
+        fill: transparent;
+        transform: scale(1);
+    }
+    to {
+        fill: white;
+        transform: scale(1.05);
+    }
+}
+
+/* Jika Anda ingin efek fill bergelombang, gunakan kode ini sebagai gantinya */
+/*
+.fill-stop { animation: wave-fill 1.5s ease-out 3.5s forwards; }
+@keyframes wave-fill {
+    from { offset: 0%; }
+    to { offset: 100%; }
+}
+*/
+
+/* --- Animasi Ledakan Bentuk Terakhir --- */
+.final-burst-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 5; /* Di bawah shutter, di atas background */
+}
+
+.burst-shape {
+    position: absolute;
+    bottom: -100px; /* Mulai dari bawah layar */
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.burst-shape.square {
+    border-radius: 0;
+}
+
+.burst-shape.triangle {
+    width: 0;
+    height: 0;
+    background-color: transparent;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 86.6px solid rgba(255, 255, 255, 0.7); /* (sqrt(3)/2) * width */
+}
+
+@keyframes rotate-lines {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* --- Animasi HUD Preloader --- */
+.preloader-hud {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    z-index: 18; /* Di bawah konten utama, di atas elemen lain */
+    pointer-events: none;
+}
+
+.hud-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+.hud-circle-1 {
+    animation: hud-rotate 20s linear infinite;
+}
+
+.hud-circle-2 {
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    animation: hud-rotate 15s linear infinite reverse;
+}
+
+.hud-circle-3 {
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    animation: hud-rotate 25s linear infinite;
+}
+
+/* --- Animasi System Check Preloader --- */
+.preloader-system-check {
+    /* position: absolute; */
+    /* bottom: 25%; Pindahkan ke bawah */
+    /* left: 50%; */
+    /* transform: translateX(-50%); Pusatkan secara horizontal */
+    /* z-index: 15; */
+    opacity: 0;
+    animation: fade-in-stats 1s ease 1s forwards;
+}
+
+.preloader-system-check ul {
+    list-style: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem; /* Ukuran font diperbesar */
+}
+
+.preloader-system-check li {
+    margin-bottom: 1rem; /* Jarak antar item disesuaikan */
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: check-item-in 0.5s forwards;
+}
+
+.preloader-system-check li::after {
+    content: '[OK]';
+    color: #2ecc71; /* Warna hijau untuk status OK */
+    margin-left: 10px;
+    opacity: 0;
+    animation: check-status-in 0.5s forwards;
+}
+
+/* Memberi delay animasi yang berbeda untuk setiap item */
+.preloader-system-check li:nth-child(1) { animation-delay: 1.5s; }
+.preloader-system-check li:nth-child(2) { animation-delay: 2.0s; }
+.preloader-system-check li:nth-child(3) { animation-delay: 2.5s; }
+.preloader-system-check li:nth-child(4) { animation-delay: 3.0s; }
+.preloader-system-check li:nth-child(5) { animation-delay: 3.5s; }
+
+.preloader-system-check li:nth-child(1)::after { animation-delay: 1.9s; }
+.preloader-system-check li:nth-child(2)::after { animation-delay: 2.4s; }
+.preloader-system-check li:nth-child(3)::after { animation-delay: 2.9s; }
+.preloader-system-check li:nth-child(4)::after { animation-delay: 3.4s; }
+.preloader-system-check li:nth-child(5)::after { animation-delay: 3.9s; }
+
+/* --- Animasi Statistik Preloader --- */
+.preloader-stats {
+    position: relative;
+    /* bottom: 5%; */
+    /* left: 50%; */
+    /* transform: translateX(-50%);     */
+    width: 90%;
+    max-width: 400px;
+    z-index: 15; /* Di atas elemen background lain */
+    opacity: 0;
+    animation: fade-in-stats 1s ease 1s forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    margin-top: 2rem; /* Jarak dari logo */
+}
+
+.stats-text-container {
+    color: var(--text-color);
+    font-family: 'Courier New', Courier, monospace; /* Font teknis */
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    z-index: 5; /* Pastikan teks di atas grafik */
+}
+
+@keyframes check-item-in {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes check-status-in {
+    to {
+        opacity: 1;
+    }
+}
+/* Gaya untuk animasi ketik pada status-text */
+#status-text span {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@keyframes fade-in-stats {
+    to {
+        opacity: 1;
+    }
+}
+
+.progress-bar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #e0e0e0;
+    z-index: 1001;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--primary-color);
+    transition: width 0.1s linear;
+}
+
+.theme-switcher {
+    position: fixed;
+    top: 20px;
+    right: 50px;
+    z-index: 1002;
+}
+
+#dark-mode-toggle {
+    display: none;
+}
+
+.theme-switcher label {    
+    position: relative;
+    cursor: pointer;
+    width: 30px; /* Sesuaikan ukuran kontainer */
+    height: 30px; /* Sesuaikan ukuran kontainer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-icon {
+    position: absolute;
+    font-size: 1.5rem;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.theme-icon.sun {
+    color: #f39c12; /* Warna kuning untuk matahari */
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+}
+
+.theme-icon.moon {
+    color: #4c5a78; /* Warna biru gelap untuk bulan */
+}
+
+/* Saat dark mode aktif */
+#dark-mode-toggle:checked + label .sun {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+#dark-mode-toggle:checked + label .moon {
+    opacity: 0;
+    transform: scale(0.5) rotate(90deg);
+}
+
+body.dark-mode {
+    /* Gradien animasi untuk mode gelap */
+    background: linear-gradient(45deg, #121212, #1a232f, #2c3e50, #121212);
+    background-size: 400% 400%;
+    color: #e0e0e0;
+}
+
+body.dark-mode .main-header,
+body.dark-mode .section,
+body.dark-mode .card,
+body.dark-mode .member-card,
+body.dark-mode .timeline-content,
+body.dark-mode .testimoni-card,
+body.dark-mode .kontak-form-container,
+body.dark-mode .kontak-info-container,
+body.dark-mode .main-footer,
+body.dark-mode .divisi-card,
+body.dark-mode .program-item {
+    background: #1e1e1e;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .main-nav a,
+body.dark-mode .kontak-form label,
+body.dark-mode .kontak-detail p,
+body.dark-mode .kepengurusan-image h3,
+body.dark-mode .member-card h3,
+body.dark-mode .timeline-content h3,
+body.dark-mode .testimoni-card h4,
+body.dark-mode .testimoni-card p,
+body.dark-mode .program-item h3,
+body.dark-mode .program-item p {
+    color: #e0e0e0;
+}
+
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+    color: var(--primary-color);
+}
+
+/* --- Gaya Bagian Tentang Kami --- */
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+}
+
+/* Garis bawah yang tegas untuk judul section */
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 5px;
+    background: var(--primary-color);
+    margin: 10px auto 0;
+    border-radius: 5px;
+}
+
+.tentang-container {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+.tentang-container {
+    position: relative; /* Diperlukan untuk SVG overlay */
+}
+
+.tentang-image {
+    flex: 1;
+    min-width: 300px;
+    position: relative; /* Diperlukan untuk pseudo-element */
+    overflow: hidden;
+    border-radius: 20px;
+    height: 500px; /* Memberi tinggi yang pasti */
+}
+
+.tentang-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.tentang-content h3 {
+    font-size: 2.2rem; /* Ukuran font diperbesar */
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+.tentang-content {
+    flex: 1.5;
+    min-width: 300px;
+    z-index: 2; /* Pastikan konten di atas garis */
+}
+
+/* Gaya untuk animasi teks per huruf */
+.animated-title span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px) rotate(10deg);
+}
+
+.tentang-highlights {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3rem; /* Beri sedikit lebih banyak ruang */
+    text-align: center;
+    gap: 2rem; /* Rapatkan jarak antar item */
+}
+
+.highlight-item {
+    /* Menghilangkan background dan bentuk heksagonal */
+    background: none;
+    color: var(--text-color);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.highlight-item:hover {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    transform: scale(1.05); /* Efek hover yang konsisten */
+}
+
+.highlight-item i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.highlight-number {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+    color: var(--primary-color);
+}
+
+/* --- Animasi Ikon Kreatif di Samping "Tentang Kami" --- */
+.tentang-side-animation {
+    flex: 0.5;
+    min-width: 200px; /* Beri ruang lebih */
+    z-index: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.idea-source {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Diperlukan untuk background */
+    width: 150px; /* Ukuran kontainer */
+    height: 150px; /* Ukuran kontainer */
+    overflow: hidden; /* Menyembunyikan gelombang yang keluar dari lingkaran */
+    /* Latar belakang gradien animasi */
+    background: linear-gradient(
+        -45deg, 
+        var(--secondary-color), 
+        var(--primary-color), 
+        #f8b195,
+        var(--secondary-color)
+    );
+    background-size: 400% 400%;
+    /* Gabungkan animasi pulse, morph, dan gradient */
+    animation: 
+        pulse-idea 4s infinite ease-in-out, 
+        morph-shape 8s infinite ease-in-out, 
+        gradient-flow 15s ease infinite,
+        rotate-3d 25s infinite linear; /* Animasi rotasi 3D baru */
+    
+    /* Properti untuk efek 3D */
+    transform-style: preserve-3d;
+    box-shadow: 
+        inset 0 0 50px rgba(255, 255, 255, 0.3), /* Cahaya dari dalam */
+        0 10px 30px rgba(0, 0, 0, 0.2); /* Bayangan di bawah */
+}
+
+/* Efek Hover pada Ikon */
+.idea-source:hover {
+    animation: 
+        pulse-idea 2s infinite ease-in-out, /* Denyut lebih cepat */
+        morph-shape 6s infinite ease-in-out, /* Perubahan bentuk lebih cepat */
+        gradient-flow 10s ease infinite, /* Aliran gradien lebih cepat */
+        rotate-3d 8s infinite linear; /* Rotasi 3D lebih cepat */
+    box-shadow: 
+        inset 0 0 60px rgba(255, 255, 255, 0.4),
+        0 15px 40px rgba(231, 76, 60, 0.4); /* Bayangan lebih kuat dan berwarna */
+}
+
+.idea-source i {
+    position: relative; /* Agar ikon berada di atas background */
+    z-index: 1;
+    font-size: 4.5rem; /* Ikon diperbesar lagi */
+    color: var(--primary-color); /* Warna ikon diubah menjadi merah */
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.7); /* Bayangan putih agar menonjol */
+    animation: rotate-icon 15s linear infinite; /* Putar berlawanan arah */
+}
+
+@keyframes pulse-idea {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes rotate-icon {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+/* Animasi untuk mengubah bentuk (morphing) */
+@keyframes morph-shape {
+    0%, 100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+    50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    }
+}
+
+/* Animasi untuk menggerakkan gradien */
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animasi untuk rotasi 3D */
+@keyframes rotate-3d {
+    from { transform: rotateY(0deg) rotateX(10deg); }
+    to { transform: rotateY(360deg) rotateX(10deg); }
+}
+
+.floating-sub-icon {
+    position: absolute;
+    font-size: 2rem; /* Ukuran ikon kecil diperbesar */
+    color: var(--secondary-color);
+    opacity: 0;
+}
+
+.main-header {
+    background-color: #c62828; /* Warna dasar merah tua */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    overflow: hidden; /* Diperlukan untuk efek gelombang */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Mengembalikan animasi ombak pada navbar */
+.main-header::before,
+.main-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* Ketinggian gelombang */
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3e%3cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' style='fill:rgba(231, 76, 60, 0.7)'%3e%3c/path%3e%3c/svg%3e");
+    background-size: 200% 100%;
+    animation: liquid-move 10s linear infinite;
+}
+
+.main-header::after {
+    animation: liquid-move 15s linear infinite reverse;
+    opacity: 0.5;
+}
+
+/* Gaya navbar saat halaman di-scroll */
+.main-header.scrolled-nav {
+    padding: 0.5rem 5%; /* Mengurangi padding saat di-scroll */
+    /* Aturan ini sekarang hanya mengontrol ukuran logo/teks saat scroll */
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; /* Diperlukan untuk z-index */
+    z-index: 2; /* Menempatkan konten nav di atas gelombang */
+    padding: 1rem 5%;
+    transition: padding 0.4s ease;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.3s ease, font-size 0.4s ease;
+}
+
+.navbar-logo {
+    height: 40px; /* Ukuran logo di navbar diperbesar */
+    width: 40px; /* Pastikan proporsional */
+    object-fit: cover;
+    background-color: white; /* Menambahkan background putih */
+    border-radius: 50%; /* Jika ingin logo tetap lingkaran */
+    margin-right: 8px; /* Jarak antara logo dan teks */
+    vertical-align: middle; /* Menyelaraskan secara vertikal dengan teks */
+    transition: height 0.4s ease, width 0.4s ease, transform 0.4s ease;
+}
+
+/* Efek logo mengecil saat di-scroll */
+.main-header.scrolled-nav .logo {
+    font-size: 1.5rem;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.logo:hover .navbar-logo {
+    transform: rotate(15deg); /* Menambahkan rotasi pada logo saat di-hover */
+}
+
+.main-header.scrolled-nav .navbar-logo {
+    height: 35px; /* Logo mengecil saat di-scroll */
+    width: 35px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links.nav-active {
+    display: flex; /* Tampilkan menu saat aktif */
+    /* Kelas ini hanya untuk mobile, jadi dikosongkan di sini */
+}
+
+.nav-links li a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    position: relative;
+    transition: color 0.4s ease 0.1s; /* Transisi warna teks dengan sedikit delay */
+    z-index: 1; /* Pastikan teks berada di atas efek background */
+}
+
+/* Efek latar belakang cair (liquid) */
+.nav-links li a::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 100%;
+    height: 100%;
+    background-color: #FFD700; /* Warna latar belakang efek */
+    border-radius: 50px; /* Bentuk pil */
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    z-index: -1; /* Letakkan di belakang teks */
+}
+
+/* Gaya untuk link yang aktif */
+.nav-links li a.active-link {
+    color: #FFD700; /* Warna kuning emas untuk link aktif */
+    font-weight: 700;
+}
+
+.nav-links li a:hover,
+.nav-links li a:active {
+    color: var(--primary-color); /* Ubah warna teks menjadi merah saat hover */
+}
+
+.nav-links li a:hover::before {
+    transform: translate(-50%, -50%) scale(1); /* Tampilkan efek background saat hover */
+}
+
+.burger {
+    display: none; /* Sembunyikan di desktop */
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.burger div {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Animasi Burger menjadi 'X' */
+.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+.toggle .line2 { opacity: 0; }
+.toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+
+.section {
+    padding: 8rem 5% 4rem;
+    min-height: 100vh;
+    position: relative; /* Diperlukan untuk overlay */
+    background-size: cover; /* Ini akan ditimpa oleh GSAP */
+    background-position: center; /* Ini akan ditimpa oleh GSAP */
+    /* background-attachment: fixed; akan membuat efek paralaks sederhana, tapi kita akan gunakan GSAP */
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(216, 67, 51, 0.384); /* Overlay merah transparan yang seragam */
+    z-index: 0; /* Naikkan z-index */
+}
+/* Lapisan baru untuk gambar latar belakang yang akan dianimasikan */
+.section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit; /* Mewarisi background-image dari .section */
+    z-index: -1; /* Letakkan di belakang overlay */
+    will-change: transform; /* Optimasi untuk paralaks */
+}
+
+/* Khusus untuk section "Tentang Kami" agar background tertutup penuh */
+#tentang::before {
+    background-color: var(--bg-color); /* Aturan ini tidak lagi diperlukan, tapi kita biarkan untuk konsistensi jika ingin diubah lagi */
+}
+
+body.dark-mode .section::before {
+    background-color: rgba(0, 0, 0, 0.7); /* Overlay gelap untuk dark mode */
+}
+
+.hero-section {
+    display: grid; /* Menggunakan grid untuk penempatan yang lebih mudah */
+    place-items: center;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem 5%;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    position: relative; /* Diperlukan untuk overlay */
+    z-index: 0; /* Membuat stacking context */
+    overflow: hidden; /* Sembunyikan partikel yang keluar */
+}
+
+.hero-split-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    z-index: 5;
+}
+
+.hero-left {
+    flex: 1;
+    padding-right: 2rem;
+}
+
+.hero-right {
+    flex: 1;
+    position: relative;
+    height: 100%;
+}
+
+.hero-content {
+    text-align: left;
+    position: relative;
+    z-index: 5; /* Pindahkan ke lapisan paling depan */
+    animation: float-container 6s ease-in-out infinite;
+}
+
+@keyframes float-container {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* --- Animasi Bola Ikon 3D di Hero Section (Dikembalikan) --- */
+.hero-animation-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px; /* Perspektif untuk 3D */
+    z-index: 4;
+    pointer-events: none;
+}
+
+.icon-sphere {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px; /* Ukuran diperbesar */
+    height: 600px; /* Ukuran diperbesar */
+    margin-top: -300px;
+    margin-left: -300px;
+    transform-style: preserve-3d;
+    animation: rotate-sphere 40s linear infinite; /* Animasi diperlambat */
+}
+
+.sphere-icon {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: rgba(231, 76, 60, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #ffffff;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.3); /* Efek glow */
+    animation: pulse-icon 5s infinite ease-in-out;
+    opacity: 0; /* Sembunyikan ikon pada awalnya agar animasi 'from' GSAP berfungsi */
+    will-change: transform, box-shadow; /* Optimasi animasi */
+}
+
+.sphere-icon a {
+    color: #ffffff; /* Pastikan ikon tetap putih di dalam link */
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gaya khusus untuk ikon tengah (Kepala Sekolah) */
+.central-sphere-icon {
+    width: 90px; /* Lebih besar dari ikon lain */
+    height: 90px;
+    font-size: 2.5rem; /* Ukuran font ikon lebih besar */
+    background: rgba(231, 76, 60, 0.5); /* Background lebih pekat */
+    animation: pulse-central-icon 4s infinite ease-in-out;
+    z-index: 10; /* Pastikan selalu terlihat di depan */
+    will-change: transform; /* Optimasi animasi */
+}
+
+@keyframes pulse-central-icon {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes pulse-icon {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(231, 76, 60, 0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(231, 76, 60, 0.5); }
+}
+
+@keyframes rotate-sphere {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+/* Indikator Scroll Down */
+.scroll-down-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    z-index: 6; /* Paling depan */
+}
+
+.scroll-down-indicator::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+    animation: scroll-anim 2s infinite;
+}
+
+@keyframes scroll-anim {
+    0% { transform: translate(-50%, 0); opacity: 1; }
+    100% { transform: translate(-50%, 15px); opacity: 0; }
+}
+
+/* Menambahkan gambar latar belakang yang berbeda untuk setiap section */
+#tentang { background-image: url('path/to/bg-tentang.jpg'); }
+#visi-misi { background-image: url('path/to/bg-visimisi.jpg'); }
+#struktur-osis { background-image: url('path/to/bg-struktur.jpg'); }
+#divisi { background-image: url('path/to/bg-divisi.jpg'); }
+#program { background-image: url('path/to/bg-program.jpg'); }
+#timeline { background-image: url('path/to/bg-timeline.jpg'); }
+#galeri { background-image: url('path/to/bg-galeri.jpg'); }
+#testimoni { background-image: url('path/to/bg-testimoni.jpg'); }
+#kontak {
+    background-image: url('path/to/bg-kontak.jpg');
+    background-color: #f0f4f8; /* Fallback color */
+}
+
+.hero-content h1 {
+    font-size: 3.5rem; /* Sedikit diperbesar */
+    /* Efek teks gradien animasi yang kreatif */
+    background: linear-gradient(
+        -45deg, 
+        #ffdd57, /* Kuning cerah */
+        #ffd700, /* Warna emas untuk kilau */
+        #ff6b6b, /* Merah muda cerah */
+        #ffffff
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text; /* Properti standar untuk kompatibilitas lebih luas */
+    -webkit-text-fill-color: transparent;
+    /* Efek 3D pada teks */
+    text-shadow: 
+        1px 1px 0px rgba(255,255,255,0.1),
+        2px 2px 0px rgba(255,255,255,0.1),
+        3px 3px 0px rgba(255,255,255,0.05),
+        4px 4px 0px rgba(255,255,255,0.05),
+        5px 5px 10px rgba(0,0,0,0.2);
+    animation: gradient-text-flow 8s ease-in-out infinite;
+}
+
+.hero-content p {
+    font-size: 1.3rem; /* Sedikit diperbesar */
+    color: #f0f0f0; /* Warna putih pudar untuk sub-judul */
+    min-height: 1.2em; /* Beri ruang untuk teks agar layout tidak bergeser */
+}
+
+/* Kursor untuk efek ketik */
+.hero-content p::after {
+    content: '|';
+    animation: blink-caret 0.7s infinite;
+}
+
+@keyframes gradient-text-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes blink-caret {
+    50% { opacity: 0; }
+}
+
+.cta-button {
+    background: var(--primary-color);
+    color: #ffffff;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    display: inline-block; /* Tambahkan ini agar margin-top berfungsi */
+    margin-top: 4rem; /* Tombol digeser lebih ke bawah */
+    position: relative; /* Diperlukan untuk pseudo-element */
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    animation: pulse-cta 2s infinite ease-in-out; /* Animasi denyut lebih menonjol */
+}
+
+.cta-button i {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Mulai dari luar tombol di sebelah kiri */
+    width: 75%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg); /* Membuat efek kilatan miring */
+    transition: left 0.7s ease-in-out;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgb(255, 25, 0);
+    background: var(--gradient-cta-hover);
+}
+
+.cta-button:hover i {
+    transform: translateY(5px);
+}
+
+.cta-button:hover::before {
+    left: 125%; /* Menggerakkan kilatan melintasi tombol ke kanan */
+}
+@keyframes pulse-cta {
+    0%, 100% { transform: scale(1); box-shadow: 0 10px 20px rgba(231, 76, 60, 0.2); }
+    50% { transform: scale(1.05); box-shadow: 0 15px 30px rgba(231, 76, 60, 0.4); }
+}
+
+/* Kontainer pembungkus untuk Visi Misi */
+.visimisi-content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* --- Ikon di Samping Visi Misi --- */
+.visimisi-side-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    z-index: 0;
+}
+
+.visimisi-side-icons .icon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 180px;
+    opacity: 0; /* Sembunyikan untuk animasi GSAP */
+    transform: translateX(-50px); /* Posisi awal untuk animasi */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .visimisi-side-icons .icon-card {
+    background: rgba(30, 30, 30, 0.8);
+}
+
+.visimisi-side-icons .icon-card i {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.visimisi-side-icons .icon-card span {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Gaya untuk ikon yang aktif */
+.visimisi-side-icons .icon-card.active {
+    background: var(--primary-color);
+    color: white;
+    transform: translateX(-30px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+}
+
+.visimisi-side-icons .icon-card.active i {
+    color: white;
+}
+
+.visi-misi-container {
+    flex: 1; /* Agar mengambil sisa ruang */
+}
+
+.card-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Sembunyikan kartu konten secara default */
+.visimisi-content-card {
+    display: none;
+}
+.visimisi-content-card.active {
+    display: block;
+}
+
+.card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, background 0.5s ease, box-shadow 0.3s ease;
+    /* Properti untuk efek 3D Tilt */
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+/* Tag Pita untuk semua kartu */
+.card::before, .divisi-card::before, .program-item::before, .struktur-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 40px 40px 0 0;
+    border-color: var(--secondary-color) transparent transparent transparent;
+    transition: border-color 0.3s ease;
+    z-index: 4;
+}
+
+/* Gaya baru untuk daftar Misi */
+.misi-list {
+    list-style: none;
+    padding: 0;
+}
+
+.misi-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.misi-list li i {
+    color: var(--primary-color);
+    margin-right: 10px;
+    margin-top: 4px; /* Menyelaraskan ikon dengan teks */
+}
+
+.kepengurusan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.member-card {
+    background: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-10px) rotate(2deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.member-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--secondary-color);
+}
+
+.divisi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    position: relative; /* Angkat grid ke stacking context baru */
+    z-index: 1; /* Pastikan grid berada di atas overlay section (z-index: 0) */
+}
+
+.divisi-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s ease;
+    cursor: pointer;
+}
+.divisi-card:hover::before {
+    border-color: white transparent transparent transparent;
+}
+
+
+.divisi-card:hover {
+    transform: translateY(-10px);
+    background: var(--gradient-red-light);
+    box-shadow: 0 15px 30px rgba(231, 76, 60, 0.25);
+}
+
+.divisi-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.divisi-card:hover .divisi-icon {
+    color: white;
+    animation: shake-icon 0.5s ease-in-out;
+}
+
+@keyframes shake-icon {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+
+.divisi-card h3, .divisi-card p {
+    transition: color 0.3s ease;
+}
+
+.divisi-card:hover h3,
+.divisi-card:hover p {
+    color: white;
+}
+
+.program-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+    padding: 2rem 0;
+}
+
+.program-item {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.7s, box-shadow 0.7s;
+    transform-style: preserve-3d;
+    transform-style: preserve-3d; /* Mengaktifkan ruang 3D */
+    min-height: 350px; /* Beri ketinggian agar kartu tidak kolaps */
+}
+.program-item::before {
+    border-color: white transparent transparent transparent;
+    opacity: 0.8;
+}
+
+.program-item:hover {
+    transform: rotateY(180deg); /* Memutar kartu saat di-hover */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.program-item img {
+    width: 100%;
+    height: 100%; /* Gambar mengisi seluruh kartu */
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.program-front, .program-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden; /* Sembunyikan sisi belakang saat tidak terlihat */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.program-front {
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent 60%);
+    color: white;
+    /* Efek Glassmorphism */
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    z-index: 2;
+    justify-content: flex-end; /* Posisikan judul di bawah */
+    padding-bottom: 2rem;
+}
+
+.program-back {
+    background: var(--gradient-red-light);
+    color: white;
+    transform: rotateY(180deg); /* Sisi belakang diputar secara default */
+    z-index: 3;
+}
+
+.program-front h3 {
+    font-size: 1.5rem;
+}
+
+.program-back h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.program-back p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.program-btn {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-line {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: var(--primary-color);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+    transform: scaleY(0); /* Sembunyikan untuk animasi */
+    transform-origin: top; /* Animasi dari atas */
+    /* Efek Spotlight */
+    transition: background-color 0.5s ease;
+}
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+    /* Efek Spotlight */
+    transition: opacity 0.5s ease;
+}
+
+.timeline-item:nth-child(odd) {
+    left: 0;
+}
+
+.timeline-item:nth-child(even) {
+    left: 50%;
+}
+
+.timeline-dot {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -17px;
+    background-color: var(--secondary-color);
+    border: 4px solid var(--primary-color);
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+    transform: scale(0); /* Sembunyikan untuk animasi */
+}
+
+.timeline-item:nth-child(even) .timeline-dot {
+    left: -16px;
+}
+
+.timeline-content {
+    padding: 20px 30px;
+    background-color: white;
+    position: relative;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Garis horizontal penghubung dari titik ke konten */
+.timeline-connector {
+    position: absolute;
+    top: 28px; /* Menyelaraskan dengan pusat vertikal titik */
+    width: 20px;
+    height: 3px;
+    background-color: var(--primary-color);
+    z-index: 1;
+    transform: scaleX(0); /* Sembunyikan untuk animasi */
+}
+
+.timeline-item:nth-child(odd) .timeline-connector {
+    right: -20px;
+    transform-origin: right; /* Animasi dari kanan ke kiri */
+}
+.timeline-item:nth-child(even) .timeline-connector {
+    left: -20px;
+    transform-origin: left; /* Animasi dari kiri ke kanan */
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.gallery-item {
+    width: 100%;
+    height: 250px; /* Menambah tinggi gambar */
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Sembunyikan caption yang keluar */
+    cursor: pointer;
+}
+
+/* Menambahkan dua lapisan tirai */
+.gallery-overlay::before,
+.gallery-overlay::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: rgba(231, 76, 60, 0.85); /* Warna merah semi-transparan */
+    transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.gallery-overlay::before {
+    top: 0;
+    transform: scaleY(1);
+    transform-origin: top;
+}
+
+.gallery-overlay::after {
+    bottom: 0;
+    transform: scaleY(1);
+    transform-origin: bottom;
+}
+
+.gallery-caption {
+    color: white;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s;
+}
+
+.gallery-caption h3 {
+    margin-bottom: 0.5rem;
+}
+
+.gallery-overlay i {
+    font-size: 2rem;
+}
+
+.gallery-item-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* Optimasi untuk performa render animasi (memicu akselerasi hardware) */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.gallery-item-wrapper:hover .gallery-item {
+    transform: scale(1.1);
+}
+
+/* Animasi saat hover */
+.gallery-item-wrapper:hover .gallery-overlay::before {
+    transform: scaleY(0); /* Tirai atas terbuka ke atas */
+}
+
+.gallery-item-wrapper:hover .gallery-overlay::after {
+    transform: scaleY(0); /* Tirai bawah terbuka ke bawah */
+}
+
+.gallery-item-wrapper:hover .gallery-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1003;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    animation: zoom 0.6s;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+@keyframes zoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+/* --- Gaya Modal Generik (untuk Ikon Hero) --- */
+.generic-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.generic-modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.generic-modal {
+    background: var(--bg-color);
+    padding: 2rem 2.5rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+body.dark-mode .generic-modal {
+    background: #2c3e50;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.generic-modal-overlay.active .generic-modal {
+    transform: scale(1) translateY(0);
+}
+
+.generic-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2.5rem;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* --- Gaya Modal Divisi --- */
+.divisi-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    display: flex; /* Ini akan diubah oleh kelas .active */
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.divisi-modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.divisi-modal {
+    background: var(--bg-color);
+    background: rgba(255, 255, 255, 0.5); /* Efek kaca */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: var(--text-color);
+    padding: 2rem 3rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 700px; /* Sedikit lebih lebar */
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+body.dark-mode .divisi-modal {
+    background: rgba(30, 30, 30, 0.5); /* Efek kaca untuk mode gelap */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .divisi-modal {
+    background: rgba(30, 30, 30, 0.5); /* Efek kaca untuk mode gelap */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.divisi-modal-overlay.active .divisi-modal {
+    transform: scale(1) translateY(0);
+}
+
+.divisi-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2.5rem;
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.divisi-modal-close:hover {
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+
+.generic-modal-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.generic-modal-header i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.generic-modal-body p {
+    line-height: 1.6;
+}
+
+/* Header Modal Baru */
+.divisi-modal-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.divisi-modal-header i {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Body Modal dengan Kolom */
+.divisi-modal-body {
+    display: flex;
+    gap: 2rem;
+}
+
+.modal-column {
+    flex: 1;
+}
+
+.modal-column h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.modal-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.modal-column li {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.testimoni-slider {
+    display: flex;
+    overflow: hidden;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    transition: transform 0.5s ease-in-out;
+}
+
+.testimoni-card {
+    min-width: 100%;
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.testimoni-card p {
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.kontak-section {
+    background: #f0f4f8;
+    padding-bottom: 8rem;
+}
+
+.kontak-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.kontak-form-container, .kontak-info-container {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.kontak-form h3, .kontak-info-container h3 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+.form-group input:focus { animation: input-focus-pulse 0.8s infinite alternate; }
+@keyframes input-focus-pulse {
+    from { box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2); }
+    to { box-shadow: 0 0 0 6px rgba(231, 76, 60, 0.4); }
+}
+
+/* Gaya untuk validasi form */
+.error-message {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 5px;
+    height: 1em; /* Memberi ruang agar layout tidak bergeser */
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    background: #c0392b;
+}
+
+/* Gaya untuk pesan sukses setelah form dikirim */
+.form-success-message {
+    text-align: center;
+    padding: 3rem 1rem;
+    animation: fade-in-stats 1s ease;
+}
+
+.form-success-message h3 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.form-success-message p {
+    margin-bottom: 2rem;
+}
+
+.form-success-message i {
+    font-size: 4rem;
+    color: #2ecc71; /* Warna hijau sukses */
+}
+
+.info-card {
+    background: #f9f9f9;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    /* Untuk animasi bounce */
+    opacity: 0;
+    transform: translateY(30px);
+
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 5px solid var(--primary-color);
+}
+
+.info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.info-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.info-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color);
+}
+
+.info-card p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+@keyframes bounce-social {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Efek hover untuk ikon sosial */
+.social-icon:hover {
+    color: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-section h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.footer-section p, .footer-section ul {
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section a {
+    color: #ecf0f1;
+    text-decoration: none; 
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--primary-color);
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.social-icon {
+    font-size: 2rem;
+    color: #ecf0f1;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+.social-links .social-icon { font-size: 2rem; color: #888; }
+
+.social-icon:hover {
+    transform: translateY(-5px) scale(1.1);
+}
+
+.social-icon.instagram:hover {
+    color: #E1306C;
+}
+
+.social-icon.whatsapp:hover {
+    color: #25D366;
+}
+
+.social-icon.tiktok:hover {
+    color: #69C9D0;
+}
+
+.social-icon.youtube:hover {
+    color: #FF0000;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.8rem;
+    color: #bdc3c7;
+    position: relative; /* Agar di atas gelombang */
+    z-index: 2;
+}
+
+/* --- Kursor Kustom --- */
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: -100px; /* Sembunyikan di luar layar pada awalnya */
+    left: -100px;
+    border-radius: 50%;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    /* Hapus transisi CSS, akan dikontrol oleh GSAP */
+    will-change: transform; /* Optimasi performa utama untuk kursor */
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary-color);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--secondary-color);
+    transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Interaksi Kursor */
+.cursor-outline.hover {
+    width: 60px;
+    height: 60px;
+    border-color: var(--primary-color);
+}
+
+.cursor-outline.click-effect {
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+/* Sembunyikan kursor kustom di mobile */
+@media (max-width: 768px) {
+    .cursor-dot, .cursor-outline {
+        display: none;
+    }
+}
+
+/* Gaya Struktur Organisasi */
+.struktur-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.level {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    margin-top: 3rem;
+    position: relative;
+}
+
+.struktur-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.struktur-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 13%; /* Disesuaikan agar 7 kartu muat */
+    max-width: 180px; /* Batas lebar maksimum */
+    min-width: 140px; /* Batas l ebar minimum */
+    position: relative; /* Diperlukan untuk pseudo-element */
+    overflow: hidden; /* Menyembunyikan background di luar kartu */
+    z-index: 1;
+}
+
+.struktur-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(231, 76, 60, 0.25);
+}
+
+.struktur-card:hover::before {
+    border-color: white transparent transparent transparent;
+}
+
+/* Kelas untuk interaktivitas hover */
+.struktur-container.interactive-mode .struktur-card,
+.struktur-container.interactive-mode .garis-vertikal,
+.struktur-container.interactive-mode .garis-horizontal,
+.struktur-container.interactive-mode .garis-vertikal-divisi,
+.struktur-container.interactive-mode .garis-horizontal-divisi,
+.struktur-container.interactive-mode .garis-cabang {
+    transition: opacity 0.4s ease, filter 0.4s ease, transform 0.3s ease;
+}
+.dimmed {
+    opacity: 0.3;
+    filter: grayscale(80%);
+}
+.struktur-card.pembina {
+    border-color: var(--secondary-color); /* Warna border berbeda untuk pembina */
+    width: 25%;
+}
+
+.struktur-card.kepala-sekolah {
+    border-color: #FFD700; /* Warna emas untuk Kepala Sekolah */
+    width: 30%;
+}
+
+.struktur-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-red-light);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    z-index: -1;
+}
+
+.struktur-card.highlighted-card {
+    transform: translateY(-15px) scale(1.05) !important;
+    box-shadow: 0 20px 40px rgba(231, 76, 60, 0.4) !important;
+    z-index: 10; /* Angkat kartu ke lapisan atas agar tidak terpotong */
+}
+
+.struktur-card:hover::before {
+    transform: scaleY(1);
+    transform-origin: top;
+}
+
+.struktur-icon {
+    font-size: 2.5rem; /* Ukuran ikon diperbesar */
+    color: var(--secondary-color);
+    margin-bottom: 1rem; /* Jarak bawah ditambah */
+    transition: transform 0.4s ease, color 0.4s ease;
+}
+
+.struktur-card:hover .struktur-icon {
+    transform: translateY(-5px);
+    color: white;
+}
+
+.struktur-card h3 {
+    font-size: 1rem;
+    margin: 0.5rem 0 0.2rem;
+}
+
+.struktur-card:hover h3,
+.struktur-card:hover p {
+    color: white;
+    transition: color 0.4s ease;
+}
+
+.struktur-card p {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Garis-garis penghubung */
+.garis-horizontal {
+    position: absolute;
+    top: -20px;
+    width: 100%;
+    height: 3px;
+    background: var(--primary-color);
+    transform: scaleX(0); /* Sembunyikan untuk animasi */
+}
+
+.garis-vertikal {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 3px;
+    height: 20px;
+    background: var(--primary-color);
+    transform: scaleY(0); /* Sembunyikan untuk animasi */
+}
+
+.garis-horizontal-divisi {
+    position: absolute;
+    top: -20px; /* Naikkan posisi garis horizontal */
+    width: 100%;
+    height: 3px;
+    background: var(--primary-color);
+    transform: scaleX(0); /* Sembunyikan untuk animasi */
+}
+
+.garis-vertikal-divisi {
+    position: absolute;
+    top: -20px;
+    left: 50%; /* Garis utama ke atas */
+    width: 3px;
+    height: 40px; /* Perpanjang ke atas */
+    background: var(--primary-color);
+    transform: scaleY(0); /* Sembunyikan untuk animasi */
+}
+
+.divisi-row {
+    justify-content: space-around; /* Ganti menjadi space-around */
+    width: 100%;
+}
+
+/* Garis-garis cabang untuk setiap divisi */
+.garis-cabang-container {
+    position: absolute;
+    top: -20px;
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.garis-cabang {
+    width: 3px;
+    height: 100%;
+    background-color: var(--primary-color);
+    transform: scaleY(0); /* Sembunyikan untuk animasi */
+}
+
+.main-footer {
+    position: relative;
+    z-index: 1;
+    background: var(--gradient-dark-footer);
+}
+
+@keyframes navLinkFade {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to { opacity: 1; transform: translateX(0px); }
+}
+
+@media (max-width: 992px) {
+    .struktur-card {
+        width: 18%;
+    }
+}
+@media (max-width: 768px) {
+    /* Sembunyikan elemen-elemen khusus desktop di mobile */
+    .scroll-down-indicator {
+        display: none;
+    }
+
+    /* --- Perbaikan Hero Section --- */
+    .hero-split-container {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding-top: 6rem; /* Beri ruang lebih dari navbar */
+        gap: 1rem; /* Kurangi jarak antara teks dan animasi */
+    }
+
+    .hero-left {
+        padding-right: 0;
+        order: 1; /* Teks di atas */
+    }
+
+    .hero-right {
+        order: 2; /* Animasi di bawah */
+        height: 280px; /* Batasi tinggi area animasi */
+        margin-top: 2rem;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .icon-sphere {
+        transform: scale(0.7); /* Perkecil bola animasi */
+        margin-top: -300px; /* Sesuaikan posisi setelah di-scale */
+    }
+
+    .tentang-side-animation {
+        display: none;
+    }
+
+    /* --- Penyesuaian untuk Struktur Organisasi di Mobile --- */
+    .struktur-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .level {
+        margin-top: 1rem; /* Kurangi jarak antar level */
+    }
+
+    .struktur-card {
+        width: 80%;
+        max-width: 320px;
+    }
+
+    /* Sembunyikan garis-garis kompleks di mobile */
+    .garis-horizontal, .garis-horizontal-divisi {
+        display: none;
+    }
+    .garis-vertikal, .garis-vertikal-divisi {
+        /* Tetap tampilkan garis vertikal sederhana antar level */
+        top: -1rem;
+        height: 1rem;
+    }
+    .garis-cabang-container {
+        display: none;
+    }
+
+    .tentang-container {
+        flex-direction: column;
+    }
+
+    .visi-misi-container {
+        flex-direction: column;
+    }
+    .kepengurusan-image {
+        order: -1;
+    }
+
+    /* --- Perbaikan Visi & Misi --- */
+    .visimisi-content-wrapper { 
+        flex-direction: column; 
+    }
+    .visimisi-side-icons {
+        flex-direction: row; /* Susun ikon secara horizontal */
+        justify-content: center;
+        width: 100%;
+    }
+    .visimisi-side-icons .icon-card {
+        width: 120px; /* Perkecil kartu ikon */
+        padding: 1rem;
+        transform: translateX(0); /* Reset animasi desktop */
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem; /* Sesuaikan ukuran font judul */
+    }
+
+    .section {
+        padding: 6rem 5% 3rem;
+    }
+
+    h2.section-title, .section h2 {
+        font-size: 2rem;
+    }
+
+    /* Pastikan kontak dan footer tersusun vertikal */
+    .kontak-container, .footer-content {
+        flex-direction: column;
+    }
+
+    .cta-button {
+        padding: 0.8rem 1.5rem;
+    }
+
+    .nav-links {
+        position: absolute;
+        right: 0px;
+        height: calc(100vh - 60px); /* Tinggi menu = tinggi layar - tinggi header */
+        top: 60px; /* Sesuaikan dengan tinggi header saat di-scroll */
+        background-color: var(--bg-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        width: 60%;
+        max-width: 300px;
+        transform: translateX(100%);
+        transition: transform 0.5s ease-in;
+        z-index: 999; /* Pastikan menu di atas konten, di bawah header */
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+
+    .nav-links li {
+        opacity: 0; /* Untuk animasi fade-in */
+    }
+    .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+    .timeline-item:nth-child(even) {
+        left: 0%;
+    }
+    .timeline-dot {
+        left: 17px;
+    }
+    .timeline-item:nth-child(even) .timeline-dot {
+        left: 17px;
+    }
+    .nav-links li a {
+        color: var(--text-color); /* Warna link di menu mobile agar terbaca */
+    }
+    /* Penyesuaian untuk dark mode di menu mobile */
+    body.dark-mode .nav-links {
+        background-color: #1e1e1e;
+    }
+    .nav-links.nav-active {
+        transform: translateX(0%);
+    }
+    .burger {
+        display: block; /* Tampilkan burger di mobile */
+    }
+    .program-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 2rem; /* Perkecil judul di layar sangat kecil */
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .cta-button {
+        margin-top: 2rem;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .icon-sphere {
+        transform: scale(0.6); /* Perkecil lagi animasi bola */
+    }
+
+    .divisi-modal {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .divisi-modal-body {
+        flex-direction: column; /* Tumpuk kolom di modal */
+        gap: 1.5rem;
+    }
+
+    .visimisi-side-icons .icon-card {
+        width: 100px; /* Perkecil lagi ikon visi/misi */
+        padding: 0.8rem;
+    }
+
+    .visimisi-side-icons .icon-card i {
+        font-size: 2.5rem;
+    }
+}
