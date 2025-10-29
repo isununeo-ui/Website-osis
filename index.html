@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>osis smatska</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="preloader-main-content">
+            <div class="logo-background-wrapper">
+                <img src="./image-Photoroom.png" alt="Logo OSIS" class="preloader-image">
+            </div>
+        </div>
+        <div class="preloader-stats">
+            <div class="stats-text-container">
+                <span id="status-text">Initializing System...</span>
+                <span id="status-percentage">0%</span>
+            </div>
+        </div>
+
+        <!-- Lapisan untuk Efek Kilatan Putih -->
+        <div id="flash-overlay"></div>
+    </div>
+
+    <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+    </div>
+
+    <div class="theme-switcher">
+        <input type="checkbox" id="dark-mode-toggle">
+        <label for="dark-mode-toggle">
+            <i class="fas fa-moon theme-icon moon"></i>
+            <i class="fas fa-sun theme-icon sun"></i>
+        </label>
+    </div>
+
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="#" class="logo">
+                <img src="./image-Photoroom.png" alt="Logo OSIS" class="navbar-logo">OSIS smatska
+            </a>
+            <ul class="nav-links">
+                <li><a href="#tentang">Tentang</a></li>
+                <li><a href="#visi-misi">Visi & Misi</a></li>
+                <li><a href="#struktur-osis">Struktur</a></li>
+                <li><a href="#divisi">Divisi</a></li>
+                <li><a href="#program">Program</a></li>
+                <li><a href="#timeline">Timeline</a></li>
+                <li><a href="#galeri">Galeri</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Ganti URL dengan gambar lokal yang sudah dioptimalkan -->
+    <section class="hero-section" style="background-image: url('./path/to/your/optimized-hero-bg.webp');">
+        <div class="hero-split-container">
+            <div class="hero-left">
+                <div class="hero-content" data-tilt-box>
+                    <h1>Selamat Datang di Situs Resmi OSIS SMATSKA</h1>
+                    <p id="hero-subtitle"></p> <!-- Dikosongkan untuk efek ketik -->
+                    <a href="#tentang" class="cta-button" data-magnetic>Jelajahi Sekarang <i class="fas fa-arrow-down"></i></a>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="hero-animation-container">
+                    <div class="icon-sphere">
+                        <!-- Ikon akan ditambahkan oleh JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-down-indicator"></div>
+    </section>
+
+    <section id="tentang" class="section">
+        <div class="container no-generic-fade">
+            <h2>Tentang Kami</h2>
+            <div class="tentang-container">
+                <div class="tentang-content">
+                    <h3 class="animated-title">#OSIS_SMATSKA_Hebat</h3>
+                    <p id="tentang-paragraph">SMA Telekomunikasi Sekar Kemuning Cirebon (SMATSKA) adalah kawah candradimuka bagi talenta digital masa depan. Dengan jurusan unggulan seperti Teknik Komputer & Jaringan (TKJ) dan Rekayasa Perangkat Lunak (RPL), kami membekali siswa dengan keahlian praktis yang relevan dengan industri. Didukung laboratorium canggih dan ekstrakurikuler berbasis teknologi, SMATSKA adalah tempat di mana inovasi dan kreativitas bertemu.</p>
+                    <div class="tentang-highlights">
+                        <div class="highlight-item tilt-card">
+                            <i class="fas fa-users"></i>
+                            <span class="highlight-number" data-value="25" data-suffix="+">0+</span>
+                            <span class="highlight-text">Anggota Aktif</span>
+                        </div>                                                                                                                                                                                                                                                         
+                        <div class="highlight-item tilt-card">
+                            <i class="fas fa-sitemap"></i>
+                            <span class="highlight-number" data-value="7">0</span>
+                            <span class="highlight-text">Divisi</span>
+                        </div>
+                        <div class="highlight-item tilt-card">
+                            <i class="fas fa-calendar-check"></i>
+                            <span class="highlight-number" data-value="15" data-suffix="+">0+</span>
+                            <span class="highlight-text">Program Kerja</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Animasi Ikon Samping -->
+                <div class="tentang-side-animation">
+                    <div class="idea-source">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="visi-misi" class="section">
+        <div class="container no-generic-fade">
+            <h2>Visi & Misi</h2>
+            <div class="visimisi-content-wrapper">
+                <!-- Ikon di samping -->
+                <div class="visimisi-side-icons">
+                    <div class="icon-card active" data-target="visi-content">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Visi Kami</span>
+                    </div>
+                    <div class="icon-card" data-target="misi-content">
+                        <i class="fas fa-tasks"></i>
+                        <span>Misi Kami</span>
+                    </div>
+                </div>
+                <!-- Konten Visi dan Misi -->
+                <div class="visi-misi-container">
+                    <div class="card-container">
+                        <div id="visi-content" class="card tilt-card visimisi-content-card active">
+                            <h3>Visi</h3>
+                            <p>"Terwujudnya lulusan yang berakhlak mulia, berprestasi, kreatif, inovatif, mandiri dan berwawasan global."</p>
+                        </div>
+                        <div id="misi-content" class="card tilt-card visimisi-content-card">
+                            <h3>Misi</h3>
+                            <ul class="misi-list">
+                                <li><i class="fas fa-check-circle"></i> Menumbuhkembangkan penghayatan dan pengamalan ajaran agama Islam.</li>
+                                <li><i class="fas fa-check-circle"></i> Melaksanakan pembelajaran dan bimbingan secara efektif dan efisien.</li>
+                                <li><i class="fas fa-check-circle"></i> Mendorong dan membantu setiap peserta didik untuk mengenali potensi dirinya.</li>
+                                <li><i class="fas fa-check-circle"></i> Menumbuhkembangkan semangat keunggulan secara intensif kepada seluruh warga sekolah.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="struktur-osis" class="section">
+        <h2>Struktur Organisasi OSIS</h2>
+        <div class="struktur-container">
+            <!-- Level Kepala Sekolah -->
+            <div class="level">
+                <div class="struktur-card kepala-sekolah">
+                    <i class="fas fa-school struktur-icon"></i>
+                    <h3>#</h3>
+                    <p>Kepala Sekolah</p>
+                </div>
+            </div>
+            <!-- Level Waka -->
+            <div class="level">
+                <div class="garis-vertikal"></div>
+                <div class="garis-horizontal"></div>
+                <div class="struktur-row">
+                    <div class="struktur-card">
+                        <i class="fas fa-user-graduate struktur-icon"></i>
+                        <h3>(Nama Waka Kesiswaan)</h3>
+                        <p>Wakil Kesiswaan</p>
+                    </div>
+                    <div class="struktur-card">
+                        <i class="fas fa-chalkboard-teacher struktur-icon"></i>
+                        <h3>(Nama Waka Kurikulum)</h3>
+                        <p>Wakil Kurikulum</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Level Pembina -->
+            <div class="level">
+                <div class="garis-vertikal"></div>
+                <div class="struktur-card pembina">
+                    <i class="fas fa-user-tie struktur-icon"></i>
+                    <h3>(Nama Pembina OSIS)</h3>
+                    <p>Pembina OSIS</p>
+                </div>
+            </div>
+            <!-- Level Ketua -->
+            <div class="level">
+                <div class="garis-vertikal"></div>
+                <div class="struktur-row">
+                    <div class="struktur-card">
+                        <i class="fas fa-crown struktur-icon"></i>
+                        <h3>(Nama Ketua OSIS)</h3>
+                        <p>Ketua OSIS</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Level Wakil, Sekretaris & Bendahara -->
+            <div class="level">
+                <div class="garis-vertikal"></div>
+                <div class="garis-horizontal"></div>
+                <div class="struktur-row">
+                    <div class="struktur-card">
+                        <i class="fas fa-user-friends struktur-icon"></i>
+                        <h3>(Nama Wakil Ketua)</h3>
+                        <p>Wakil Ketua OSIS</p>
+                    </div>
+                    <div class="struktur-card">
+                        <i class="fas fa-file-signature struktur-icon"></i>
+                        <h3>(Nama Sekretaris)</h3>
+                        <p>Sekretaris OSIS</p>
+                    </div>
+                    <div class="struktur-card">
+                        <i class="fas fa-coins struktur-icon"></i>
+                        <h3>(Nama Bendahara)</h3>
+                        <p>Bendahara OSIS</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Level Divisi -->
+            <div class="level">
+                <div class="garis-vertikal-divisi"></div>
+                <div class="garis-horizontal-divisi"></div>
+                <div class="garis-cabang-container">
+                    <div class="garis-cabang"></div>
+                    <div class="garis-cabang"></div>
+                    <div class="garis-cabang"></div>
+                    <div class="garis-cabang"></div>
+                    <div class="garis-cabang"></div>
+                    <div class="garis-cabang"></div>
+                    <div class="garis-cabang"></div>
+                </div>
+                <div class="struktur-row divisi-row">
+                    <div class="struktur-card divisi">
+                        <i class="fas fa-mosque struktur-icon"></i>
+                        <h3>Divisi 1</h3>
+                        <p>Ketua Divisi Kerohanian</p>
+                    </div>
+                    <div class="struktur-card divisi">
+                        <i class="fas fa-book-open struktur-icon"></i>
+                        <h3>Divisi 2</h3>
+                        <p>Ketua Divisi Pendidikan</p>
+                    </div>
+                    <div class="struktur-card divisi">
+                        <i class="fas fa-futbol struktur-icon"></i>
+                        <h3>Divisi 3</h3>
+                        <p>Ketua Divisi Olahraga</p>
+                    </div>
+                    <div class="struktur-card divisi">
+                        <i class="fas fa-palette struktur-icon"></i>
+                        <h3>Divisi 4</h3>
+                        <p>Ketua Divisi Kreatif</p>
+                    </div>
+                    <div class="struktur-card divisi">
+                        <i class="fas fa-chart-line struktur-icon"></i>
+                        <h3>Divisi 5</h3>
+                        <p>Ketua Divisi Wirausaha</p>
+                    </div>
+                    <div class="struktur-card divisi">
+                        <i class="fas fa-shield-alt struktur-icon"></i>
+                        <h3>Divisi 6</h3>
+                        <p>Ketua Divisi Bela Negara</p>
+                    </div>
+                    <div class="struktur-card divisi">
+                        <i class="fas fa-gavel struktur-icon"></i>
+                        <h3>Divisi 7</h3>
+                        <p>Ketua Divisi Kedisiplinan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="divisi" class="section">
+        <h2>Divisi-Divisi OSIS</h2>
+        <div class="divisi-grid">
+            <div class="divisi-card" data-divisi-id="kerohanian">
+                <i class="fas fa-mosque divisi-icon"></i>
+                <h3>Divisi Kerohanian</h3>
+                <p>Membina dan meningkatkan keimanan serta ketakwaan seluruh siswa.</p>
+            </div>
+            <div class="divisi-card" data-divisi-id="pendidikan">
+                <i class="fas fa-book-open divisi-icon"></i>
+                <h3>Divisi Pendidikan</h3>
+                <p>Mengembangkan wawasan akademis dan potensi intelektual siswa.</p>
+            </div>
+            <div class="divisi-card" data-divisi-id="kreatif">
+                <i class="fas fa-palette divisi-icon"></i>
+                <h3>Divisi Kreatif</h3>
+                <p>Mewadahi dan menyalurkan bakat seni serta kreativitas siswa.</p>
+            </div>
+            <div class="divisi-card" data-divisi-id="wirausaha">
+                <i class="fas fa-chart-line divisi-icon"></i>
+                <h3>Divisi Wirausaha</h3>
+                <p>Menumbuhkan jiwa kewirausahaan dan kemandirian finansial.</p>
+            </div>
+            <div class="divisi-card" data-divisi-id="bela-negara">
+                <i class="fas fa-shield-alt divisi-icon"></i>
+                <h3>Divisi Bela Negara</h3>
+                <p>Meningkatkan rasa cinta tanah air dan kesadaran berbangsa.</p>
+            </div>
+            <div class="divisi-card" data-divisi-id="olahraga">
+                <i class="fas fa-futbol divisi-icon"></i>
+                <h3>Divisi Olahraga</h3>
+                <p>Mengembangkan potensi di bidang olahraga dan menjunjung sportivitas.</p>
+            </div>
+            <div class="divisi-card" data-divisi-id="kedisiplinan">
+                <i class="fas fa-gavel divisi-icon"></i>
+                <h3>Divisi Kedisiplinan</h3>
+                <p>Menegakkan tata tertib dan membentuk karakter siswa yang disiplin.</p>
+            </div>
+            <div class="divisi-card" data-divisi-id="bendahara">
+                <i class="fas fa-wallet divisi-icon"></i>
+                <h3>Bendahara</h3>
+                <p>Mengelola dan bertanggung jawab atas keuangan organisasi.</p>
+            </div>
+            <div class="divisi-card" data-divisi-id="sekretaris">
+                <i class="fas fa-file-alt divisi-icon"></i>
+                <h3>Sekretaris</h3>
+                <p>Mengurus administrasi, surat-menyurat, dan notulensi rapat.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="program" class="section">
+        <h2>Program Kerja Unggulan</h2>
+        <div class="program-grid">
+            <div class="program-item">
+                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop" alt="SMATSKA Leadership Camp">
+                <div class="program-front">
+                    <h3>SMATSKA Leadership Camp</h3>
+                </div>
+                <div class="program-back">
+                    <h4>Leadership Camp</h4>
+                    <p>Kegiatan LDKS untuk melatih jiwa kepemimpinan dan kerja sama tim bagi pengurus OSIS baru.</p>
+                    <a href="#" class="program-btn">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+            <div class="program-item">
+                <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?q=80&w=2070&auto=format&fit=crop" alt="Pekan Kreativitas Siswa">
+                <div class="program-front">
+                    <h3>Pekan Kreativitas Siswa</h3>
+                </div>
+                <div class="program-back">
+                    <h4>Pekan Kreativitas</h4>
+                    <p>Ajang tahunan yang menampilkan berbagai lomba seni, olahraga, dan teknologi antar kelas.</p>
+                    <a href="#" class="program-btn">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+            <div class="program-item">
+                <img src="https://images.unsplash.com/photo-1611078489939-9b392161d345?q=80&w=2070&auto=format&fit=crop" alt="Bakti Sosial">
+                <div class="program-front">
+                    <h3>Bakti Sosial "SMATSKA Peduli"</h3>
+                </div>
+                <div class="program-back">
+                    <h4>Bakti Sosial</h4>
+                    <p>Kegiatan sosial untuk membantu masyarakat sekitar dan menumbuhkan rasa empati siswa.</p>
+                    <a href="#" class="program-btn">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="timeline" class="section">
+        <h2>Timeline Acara</h2>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-connector"></div>
+                    <h3>Januari 2025</h3>
+                    <p>Rapat Kerja Awal Tahun dan Penetapan Program Kerja.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-connector"></div>
+                    <h3>Maret 2025</h3>
+                    <p>Pelaksanaan Pekan Olahraga dan Seni (PORSENI) antar kelas.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-connector"></div>
+                    <h3>Mei 2025</h3>
+                    <p>Peringatan Hari Pendidikan Nasional dengan seminar pendidikan.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-connector"></div>
+                    <h3>Agustus 2025</h3>
+                    <p>Perlombaan dan acara peringatan HUT Kemerdekaan RI.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-connector"></div>
+                    <h3>Oktober 2025</h3>
+                    <p>SMATSKA Leadership Camp untuk calon pengurus OSIS baru.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-connector"></div>
+                    <h3>November 2025</h3>
+                    <p>Pemilihan Ketua OSIS (PEMILOS) periode berikutnya.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-connector"></div>
+                    <h3>Desember 2025</h3>
+                    <p>Laporan Pertanggungjawaban (LPJ) Akhir Tahun.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeri" class="section">
+        <h2>Galeri Kegiatan</h2>
+        <div class="gallery-grid">
+            <!-- Item 1 -->
+            <div class="gallery-item-wrapper">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop" alt="Foto kegiatan 1" class="gallery-item" data-full="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop" loading="lazy">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">
+                        <h3>Seminar Teknologi</h3>
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="gallery-item-wrapper">
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2070&auto=format&fit=crop" alt="Foto kegiatan 2" class="gallery-item" data-full="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2070&auto=format&fit=crop" loading="lazy">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">
+                        <h3>PORSENI</h3>
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="gallery-item-wrapper">
+                <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=2069&auto=format&fit=crop" alt="Foto kegiatan 3" class="gallery-item" data-full="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=2069&auto=format&fit=crop" loading="lazy">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">
+                        <h3>Bakti Sosial</h3>
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="gallery-item-wrapper">
+                <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=2070&auto=format&fit=crop" alt="Foto kegiatan 4" class="gallery-item" data-full="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=2070&auto=format&fit=crop" loading="lazy">
+                <div class="gallery-overlay">
+                    <div class="gallery-caption">
+                        <h3>HUT Kemerdekaan</h3>
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="gallery-modal" class="modal">
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+
+    <!-- Modal untuk Detail Divisi -->
+    <div id="divisi-modal-overlay" class="divisi-modal-overlay">
+        <div id="divisi-modal" class="divisi-modal">
+            <button id="divisi-modal-close" class="divisi-modal-close">&times;</button>
+            <div class="divisi-modal-header">
+                <i id="modal-divisi-icon" class="fas"></i>
+                <h2 id="modal-divisi-title"></h2>
+            </div>
+            <div id="divisi-modal-content" class="divisi-modal-body">
+                <div class="modal-column">
+                    <h3>Program Kerja</h3>
+                    <ul id="modal-divisi-programs">
+                    </ul>
+                </div>
+                <div class="modal-column">
+                    <h3>Anggota Divisi</h3>
+                    <ul id="modal-divisi-members"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="kontak" class="section kontak-section">
+        <h2>Hubungi Kami</h2>
+        <div class="kontak-container">
+            <div class="kontak-form-container">
+                <h3>Kirim Pesan</h3>
+                <form action="#" method="POST" class="kontak-form">
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" name="nama">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="pesan">Pesan Anda</label>
+                        <textarea id="pesan" name="pesan" rows="5"></textarea>
+                        <span class="error-message"></span>
+                    </div>
+                    <button type="submit" class="submit-btn">Kirim Pesan</button>
+                </form>
+            </div>
+            
+            <div class="kontak-info-container">
+                <h3>Informasi Kontak</h3>
+                <div class="info-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>Alamat</h4>
+                    <p>Jl. Sekar Kemuning No.36, Karyamulya, Cirebon</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-envelope"></i>
+                    <h4>Email</h4>
+                    <p>smatska.cirebon@gmail.com</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-phone"></i>
+                    <h4>Telepon</h4>
+                    <p>(0231) 488235</p>
+                </div>
+                <div class="social-links">
+                    <h4>Ikuti Kami</h4>
+                    <a href="https://instagram.com/smatska_cirebon" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" target="_blank" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" target="_blank" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>Tentang OSIS</h3>
+                <p>OSIS adalah wadah bagi siswa untuk berkreasi, belajar, dan berorganisasi. Mari bersama membangun sekolah yang lebih baik!</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Tautan Cepat</h3>
+                <ul>
+                    <li><a href="#tentang">Tentang Kami</a></li>
+                    <li><a href="#program">Program Kerja</a></li>
+                    <li><a href="#galeri">Galeri Kegiatan</a></li>
+                    <li><a href="#kontak">Hubungi Kami</a></li>
+                </ul>
+            </div>
+            <div class="footer-section social">
+                <h3>Ikuti Kami</h3>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/osis_smatska" target="_blank" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.tiktok.com/@smatska.cirebon" target="_blank" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.youtube.com/@smatskacirebon235" target="_blank" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2024 OSIS SMA Telekomunikasi Sekar Kemuning | Dibuat dengan ❤
+        </div>
+    </footer>
+
+    <!-- Modal untuk Ikon Hero Section -->
+    <div id="hero-icon-modal-overlay" class="generic-modal-overlay">
+        <div class="generic-modal">
+            <button id="hero-icon-modal-close" class="generic-modal-close">&times;</button>
+            <div class="generic-modal-header">
+                <i id="hero-modal-icon" class="fas"></i>
+                <h2 id="hero-modal-title"></h2>
+            </div>
+            <div class="generic-modal-body">
+                <p id="hero-modal-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/TextPlugin.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
